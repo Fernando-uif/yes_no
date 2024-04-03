@@ -9,9 +9,9 @@ class ChatProvider extends ChangeNotifier {
 
   // puede notificar cuando hay cambios
   List<Message> messageList = [
-    Message(text: 'Hola ', fromWho: FromWho.me),
-    Message(text: 'Como te enuentras?', fromWho: FromWho.me),
+    
   ];
+  
   Future<void> sendMessage(String text) async {
     if (text.isEmpty) return;
     final newMessage = Message(text: text, fromWho: FromWho.me);
@@ -28,6 +28,12 @@ class ChatProvider extends ChangeNotifier {
 
   Future<void> herReply() async {
     final herMessage = await getYesNoAnwer.getAnswer();
+    messageList.add(herMessage);
+    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      moveScrollToBottom();
+    });
+
   }
 
   void moveScrollToBottom() {
